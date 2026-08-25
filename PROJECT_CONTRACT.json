@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "metrics": {
+    "production_loc": 2446,
+    "production_files": 19,
+    "production_packages": 8,
+    "test_files": 9,
+    "production_functions": 56,
+    "decision_points": 88
+  },
+  "persistence": {
+    "module": "go.etcd.io/bbolt",
+    "entities": ["Wave", "PickTask", "Zone", "Exception"],
+    "reopen_test": "TestPersistenceSurvivesReopen"
+  },
+  "workflows": [
+    {"steps":["Open embedded store and load persisted waves and tasks","Aggregate task statuses into wave progress","Render sorted task rows with location and picker data","Serve JSON snapshot to dashboard clients"],"test":"TestWorkflowBoardRefresh"},
+    {"steps":["Read zone query from API request","Resolve each task's wave zone","Exclude tasks outside selected zone","Return snapshot while preserving selected zone"],"test":"TestWorkflowZoneFilter"},
+    {"steps":["Queue task identifiers for workers","Update task status and picker assignment","Wait for all workers to finish","Persist final state for reopen"],"test":"TestWorkflowTaskProcessing"}
+  ]
+}
